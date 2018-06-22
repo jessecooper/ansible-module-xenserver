@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2013, Hiroaki Nakamura <hnakamur@gmail.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -13,7 +12,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: xen_vm
+module: xen_vm_list
 author:
     - Jesse Cooper (@jessecooper)
 version_added: "2.1"
@@ -22,15 +21,15 @@ requirements: [ xe ]
 description:
     - Manage xenserver guests using xe commands
 options:
-    vm_list:
+    params:
         description:
-            - return a list of virtual machines
-        required: false
+            - all or common seperated list of vm params to return
+        required: true
 '''
 
 EXAMPLES = '''
-- xen_vm:
-    vm_list: all
+- xen_vm_list:
+    params: all
 '''
 
 import os
@@ -80,21 +79,20 @@ class XeVmList(XeBase):
 def main():
     module = AnsibleModule(
         argument_spec=dict(
-            vm_list=dict(required=False),
-            params=dict(required=False)
+            params=dict(required=True)
         ),
         supports_check_mode=True,
     )
 
     vm_list_cmd = XeVmList(module)
-    vm_list_type = module.params['vm_list']
     vm_list_params = module.params['params']
 
-    if vm_list_type == 'all':
-        if vm_list_params:
-            out = vm_list_cmd.vm_list(params=vm_list_params)
-        else:
-            out = vm_list_cmd.vm_list()
+    if vm_list_params != 'all':
+        out = vm_list_cmd.vm_list(params=vm_list_params)
+    else:
+        out = vm_list_cmd.vm_list()
+    
+    out_formated = out.strip().split()[1::2]
     kw = dict(changed=True, vm_list=out,
               ansible_facts=dict(
                     ansible_fqdn=socket.getfqdn(),

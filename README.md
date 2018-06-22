@@ -17,8 +17,8 @@ make uninstall
   remote_user: root
   tasks:
     - name: "List xen guests"
-      xen_vm:
-        vm_list: all
+      xen_vm_list:
+	params: all
 ```
 ## Develop
 Coming soon
