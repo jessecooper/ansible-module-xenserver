@@ -19,6 +19,10 @@ make uninstall
     - name: "List xen guests"
       xen_vm_list:
 	params: all
+    - name: "install vm"
+      xen_vm_install:
+        template: <template uuid>
+        name_label: test-from-ansible
 ```
 ## Develop
 Coming soon
