@@ -98,12 +98,14 @@ def main():
         )
     
     out_formated = out.strip().split()[1::2]
-    kw = dict(changed=True, vm_list=out,
-              ansible_facts=dict(
-                    ansible_fqdn=socket.getfqdn(),
-                    ansible_domain='.'.join(socket.getfqdn().split('.')[1:])
-                    )
-              )
+    kw = dict(
+        changed=True,
+        uuid=out,
+        ansible_facts=dict(
+            ansible_fqdn=socket.getfqdn(),
+            ansible_domain='.'.join(socket.getfqdn().split('.')[1:])
+            )
+        )
 
     #if changed:
     #    kw['diff'] = {'after': 'hostname = ' + name + '\n',
