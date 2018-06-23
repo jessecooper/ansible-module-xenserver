@@ -23,6 +23,13 @@ make uninstall
       xen_vm_install:
         template: <template uuid>
         name_label: test-from-ansible
+    - name: "start vm"
+      xen_vm_start:
+        uuid: <template uuid>
+    - name: "vm install"
+      xen_vm_start:
+        uuid: <vm uuid>
+
 ```
 ## Develop
 Coming soon
