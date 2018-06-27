@@ -43,6 +43,7 @@ EXAMPLES = '''
 '''
 
 import os
+import re
 import socket
 import traceback
 
@@ -84,7 +85,29 @@ class XeVmParam(XeBase):
         rc, out, err = self.module.run_command(self.cmd)
         if rc != 0:
             self.module.fail_json(msg="Command failed rc=%d, out=%s, err=%s" % (rc, out, err))
-        return to_native(out).strip()
+        if param_name == "networks":
+            return self._format_networks(to_native(out).strip())
+        else:
+            return to_native(out).strip()
+
+    def _format_networks(self, networks):
+        """_format_networks(str) -> dict"""
+        ipv4 = []
+        ipv6 = []
+        networks_dict = {
+            "ipv4": ipv4,
+            "ipv6": ipv6
+        }
+        ip_reg = re.compile(
+            # Match ipv4 and ipv6.IPv6 needs to be refined
+            r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|[0-9A-Fa-f]{4}:+.*"
+        )
+        ips = ip_reg.findall(networks)
+        if len(ips) > 0:
+            networks_dict['ipv4'] = ips[0]
+            networks_dict['ipv6'] = ips[1]
+
+        return networks_dict
 
 def main():
     module = AnsibleModule(
@@ -107,12 +130,14 @@ def main():
     
     # split output by \n and : and remove the last 3 indexe I am sure this can be done better
     #out_formated = 
-    kw = dict(changed=True, vm_param=out,
-              ansible_facts=dict(
-                    ansible_fqdn=socket.getfqdn(),
-                    ansible_domain='.'.join(socket.getfqdn().split('.')[1:])
-                    )
-              )
+    kw = {
+            "changed": True, 
+            vm_param: out,
+            "ansible_facts": { 
+                "ansible_fqdn": socket.getfqdn(),
+                "ansible_domain": '.'.join(socket.getfqdn().split('.')[1:])
+                }
+        }
 
     #if changed:
     #    kw['diff'] = {'after': 'hostname = ' + name + '\n',
