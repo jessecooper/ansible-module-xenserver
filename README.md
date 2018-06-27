@@ -23,13 +23,16 @@ make uninstall
       xen_vm_install:
         template: <template uuid>
         name_label: test-from-ansible
+      register: vm_uuid
     - name: "start vm"
       xen_vm_start:
-        uuid: <template uuid>
-    - name: "vm install"
-      xen_vm_start:
-        uuid: <vm uuid>
-
+        uuid: "{{ vm_uuid.uuid }}"
+    - name: "get ipv4 address"
+      xen_vm_param:
+        uuid: "{{ vm_uuid.uuid }}"
+	param: networks
+      register: vm_ip
+...
 ```
 ## Develop
 Coming soon
