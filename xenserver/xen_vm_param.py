@@ -103,6 +103,8 @@ class XeVmParam(XeBase):
             r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|[0-9A-Fa-f]{4}:+.*"
         )
         ips = ip_reg.findall(networks)
+        # This works fine for a single nic I am sure it
+        # needs to be fixed for multiple nics
         if len(ips) > 0:
             networks_dict['ipv4'] = ips[0]
             networks_dict['ipv6'] = ips[1]
