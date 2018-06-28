@@ -108,8 +108,8 @@ def main():
         )
 
     #if changed:
-    #    kw['diff'] = {'after': 'hostname = ' + name + '\n',
-    #                  'before': 'hostname = ' + name_before + '\n'}
+    #    kw['diff'] = {'after': '\n',
+    #                  'before': '\n'}
 
     module.exit_json(**kw)
 

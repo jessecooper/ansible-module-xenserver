@@ -128,10 +128,7 @@ def main():
 
     if vm_action == 'get':
         out = vm_param_cmd.get(vm_uuid, vm_param)
-    # set up other actions
-    
-    # split output by \n and : and remove the last 3 indexe I am sure this can be done better
-    #out_formated = 
+    # elif ... set up other actions
     kw = {
             "changed": True, 
             vm_param: out,
@@ -141,9 +138,10 @@ def main():
                 }
         }
 
+    # dict with after and before key 
     #if changed:
-    #    kw['diff'] = {'after': 'hostname = ' + name + '\n',
-    #                  'before': 'hostname = ' + name_before + '\n'}
+    #    kw['diff'] = {'after': '\n',
+    #                  'before': '\n'}
 
     module.exit_json(**kw)
 

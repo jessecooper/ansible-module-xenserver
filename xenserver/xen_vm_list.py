@@ -33,6 +33,7 @@ EXAMPLES = '''
 '''
 
 import os
+import re
 import socket
 import traceback
 
@@ -92,8 +93,9 @@ def main():
     else:
         out = vm_list_cmd.vm_list()
     
-    out_formated = out.strip().split()[1::2]
-    kw = dict(changed=True, vm_list=out,
+    # split output by \n and : and remove the last 3 indexe I am sure this can be done better
+    out_formated = re.split(r"\n|:\s", out.replace(' ', '').strip())[:-3:]
+    kw = dict(changed=True, vm_list=out_formated,
               ansible_facts=dict(
                     ansible_fqdn=socket.getfqdn(),
                     ansible_domain='.'.join(socket.getfqdn().split('.')[1:])
@@ -101,8 +103,8 @@ def main():
               )
 
     #if changed:
-    #    kw['diff'] = {'after': 'hostname = ' + name + '\n',
-    #                  'before': 'hostname = ' + name_before + '\n'}
+    #    kw['diff'] = {'after': '\n',
+    #                  'before': '\n'}
 
     module.exit_json(**kw)
 
