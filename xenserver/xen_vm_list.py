@@ -45,17 +45,7 @@ from ansible.module_utils.basic import (
     load_platform_subclass,
 )
 from ansible.module_utils._text import to_native
-# If this module ever gets into ansible or one could install it as such
-#from ansible.module_utils.xenserver_common import XeBase
-
-class XeBase(object):
-    """
-    This is a xe command generic class
-    Is part of xenserver_common package
-    """
-    def __init__(self, module):
-        self.module = module
-        self.cmd = ['xe']
+from ansible.module_utils.xenserver_common import XeBase
 
 class XeVmList(XeBase):
     """

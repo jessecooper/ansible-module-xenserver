@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+'''xen_vm_install: wrapper around xe vm-install command
+   TODO:
+    * check if vm present before install
+'''
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
@@ -46,17 +50,7 @@ from ansible.module_utils.basic import (
     load_platform_subclass,
 )
 from ansible.module_utils._text import to_native
-# If this module ever gets into ansible or one could install it as such
-#from ansible.module_utils.xenserver_common import XeBase
-
-class XeBase(object):
-    """
-    This is a xe command generic class
-    Is part of xenserver_common package
-    """
-    def __init__(self, module):
-        self.module = module
-        self.cmd = ['xe']
+from ansible.module_utils.xenserver_common import XeBase
 
 class XeVmInstall(XeBase):
     """

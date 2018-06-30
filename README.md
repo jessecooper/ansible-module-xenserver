@@ -1,10 +1,16 @@
 #Ansible Xenserver
 A custom ansible module for working with Xenserver. It is a wrapper around the xe command.
 ## Install
+Requires ansible 2.4+
 ```
 make
 make install
 # It installs under /usr/share/ansible/xenserver
+```
+Edit /etc/ansible/ansible.cfg and add the following lines:
+```
+library = /usr/share/ansible/module
+module_utils = /usr/share/ansible/module_utils
 ```
 ## Uninstall
 ```
