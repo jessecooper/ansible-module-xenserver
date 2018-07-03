@@ -41,4 +41,9 @@ make uninstall
 ...
 ```
 ## Develop
-Coming soon
+
+Follow the Ansible Development Documentation and Style Guides.  
+
+## Contribute:
+
+Please fork, make changes on a feature branch and open up a pull request.
