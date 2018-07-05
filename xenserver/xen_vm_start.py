@@ -34,9 +34,8 @@ options:
 '''
 
 EXAMPLES = '''
-- xen_vm_install:
-    temlate: <temlate name>
-    name-label: <vm name>
+- xen_vm_start:
+    uuid: <vm uuid>
 '''
 
 import os
